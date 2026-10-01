@@ -22,14 +22,17 @@ $CFD_DATA_ROOT/<dataset>/collated/         # surface samples + splits + norm_sta
 $CFD_DATA_ROOT/<dataset>/volume_collated/  # volume samples + norm_stats_volume*.npz
 ```
 
-Data can be downloaded from [Huggingface](https://hf.co/collections/ayz2/cross-domain-cfd). This is a downsampled version where each dataset does not exceed 1TB and is around 5TB in total. Otherwise, the full dataset (around 26TB in total) can be downloaded from Globus. 
-
 Build a dataset from its raw download, then compute normalization stats:
 
 ```bash
 python -m data_processing.<dataset> surface --root $CFD_DATA_ROOT/<dataset>   # then: volume, prune
 python -m data_processing.norm_stats {base,surface,volume,twin} --root $CFD_DATA_ROOT
 ```
+
+## Preprocessed Datasets
+Preprocessed datasets can be downloaded from [Huggingface](https://hf.co/collections/ayz2/cross-domain-cfd). This is a downsampled version where each dataset does not exceed 1TB and is around 5TB in total. Otherwise, the full, preprocessed dataset (around 26TB in total) can be downloaded from Globus. 
+
+These are ready to use with the dataloader and dataset, otherwise the raw data will need to be processed. 
 
 ## Pretrained Model Checkpoints
 
