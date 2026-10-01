@@ -22,6 +22,8 @@ $CFD_DATA_ROOT/<dataset>/collated/         # surface samples + splits + norm_sta
 $CFD_DATA_ROOT/<dataset>/volume_collated/  # volume samples + norm_stats_volume*.npz
 ```
 
+Data can be downloaded from [Huggingface](https://hf.co/collections/ayz2/cross-domain-cfd). This is a downsampled version where each dataset does not exceed 1TB and is around 5TB in total. Otherwise, the full dataset (around 26TB in total) can be downloaded from Globus. 
+
 Build a dataset from its raw download, then compute normalization stats:
 
 ```bash
@@ -29,13 +31,17 @@ python -m data_processing.<dataset> surface --root $CFD_DATA_ROOT/<dataset>   # 
 python -m data_processing.norm_stats {base,surface,volume,twin} --root $CFD_DATA_ROOT
 ```
 
+## Pretrained Model Checkpoints
+
+Pretrained model checkpoints for all experiments are available on [Huggingface](https://huggingface.co/ayz2/cross_domain_cfd_models). The joint models ({SMART/AB-UPT/Transolver}/joint/) may be of interest, which can serve as pretrained checkpoints that can be fine-tuned to new CFD datasets. 
+
 ## Run
 
 Run from the repo root. Logs and checkpoints go to `./logs/<run>/`; pass `--wandb_mode offline`
 or `disabled` to run without a wandb account.
 
 ```bash
-export CFD_DATA_ROOT=/path/to/data
+export CFD_DATA_ROOT=/path/to/data # Or set data.data_root in the config yaml files. 
 
 # Pretraining (single dataset or joint); configs/{abupt,transolver,global_norm} work the same way
 python train.py --config configs/smart/drivaernet.yaml
