@@ -1,0 +1,58 @@
+model:
+    model_name: transolver
+    lr: 1.0e-4
+    optimizer: adam
+    model_params:
+        space_dim: 3
+        n_hidden: 384
+        n_layers: 12
+        n_head: 8
+        mlp_ratio: 4
+        slice_num: 32
+        out_dim: 4
+        split_heads: True
+        parameter_channels: 2
+        cond_init: zero
+
+data:
+    type: combined
+    n_geometry: null
+    n_surface: 32768
+    n_volume: 32768
+    load_surface: True
+    load_volume: True
+    batch_size: 1
+    num_workers: 8
+    pin_memory: True
+    prefetch_factor: 2
+    num_val: 100
+    return_metadata: False
+    return_cond: True
+    global_cond_norm: True
+    vol_stats_name: norm_stats_volume_thinned.npz
+    surf_stats_name: norm_stats_centered_thinned.npz
+    volume_thin:
+        voxel: 0.01
+        min_count: 8
+        alpha: 1.0
+        oversample: 8
+    surface_thin:
+        voxel: 0.01
+        min_count: 8
+        alpha: 1.0
+        oversample: 8
+
+training:
+    seed: 42
+    devices: 1
+    accelerator: gpu
+    strategy: auto
+    check_val_every_n_epoch: 5
+    val_every_n_steps: 1000
+    log_every_n_steps: 10
+    max_epochs: 100
+    log_dir: ./logs/
+    project: cfd_ft_final_upt
+    wandb_mode: online
+    checkpoint: null
+    accumulate_grad_batches: 1

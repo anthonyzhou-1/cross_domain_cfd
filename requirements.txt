@@ -1,0 +1,20 @@
+# Python 3.11. Install torch first for your CUDA version, then the rest:
+#   pip install torch==2.9.0 --index-url https://download.pytorch.org/whl/cu128
+#   pip install -r requirements.txt -f https://data.pyg.org/whl/torch-2.9.0+cu128.html
+torch==2.9.0
+lightning==2.6.5
+numpy==2.4.6
+einops==0.8.2
+PyYAML==6.0.3
+wandb==0.27.1
+matplotlib==3.10.1
+scipy==1.17.1
+pandas==2.2.3
+pyvista==0.48.4
+vtk==9.6.2
+# AB-UPT (model_name: upt) only: ball-tree pooling and scatter ops
+balltree-erwin==0.1.0
+torch_scatter==2.1.2
+torch-geometric==2.8.0
+# optional, only for optimizer: muon
+# muon-optimizer @ git+https://github.com/KellerJordan/Muon@f98f1cacc0263b04290753e32be8d498c1efc806

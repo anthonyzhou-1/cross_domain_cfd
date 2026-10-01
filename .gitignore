@@ -1,0 +1,9 @@
+logs/
+wandb/
+checkpoints/
+__pycache__/
+.venv*
+*.out
+*.err
+.ipynb_checkpoints
+.DS_Store

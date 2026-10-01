@@ -1,0 +1,64 @@
+model:
+    model_name: smart
+    lr: 1.0e-4
+    optimizer: adam
+    max_surface_points: null
+    max_volume_points: null
+    model_params:
+        spatial_dim: 3
+        surface_channels: 4
+        volume_channels: 4
+        parameter_channels: 2
+        latent_dim: 384
+        latent_geometry_points: 4096
+        subsampled_geometry_points: 4096
+        num_encoder_decoder_blocks: 12
+        num_heads: 8
+
+data:
+    type: combined
+    surface_dir: double_delta/collated
+    volume_dir: double_delta/volume_collated
+    n_geometry: null
+    n_surface: 32768
+    n_volume: 32768
+    load_surface: True
+    load_volume: True
+    batch_size: 1
+    num_workers: 8
+    pin_memory: True
+    prefetch_factor: 4
+    num_val: 100
+    return_metadata: False
+    return_cond: True
+    global_cond_norm: True
+    volume_thin:
+        min_count: 8
+        voxel: 0.01
+        oversample: 8
+    surface_thin:
+        min_count: 8
+        voxel: 0.01
+        oversample: 8
+    surf_stats_name: norm_stats_centered_thinned.npz
+    vol_stats_name: norm_stats_volume_thinned.npz
+
+training:
+    seed: 42
+    devices: 1
+    accelerator: gpu
+    strategy: auto
+    description: double_delta_smart
+    check_val_every_n_epoch: 1
+    val_every_n_steps: 1000
+    log_every_n_steps: 100
+    max_steps: 100000
+    lr_decay_every_n_steps: 1000
+    log_dir: ./logs/
+    project: latent_spaces_final
+    wandb_mode: online
+    ema_decay: 0.995
+    checkpoint: null
+    accumulate_grad_batches: 1
+    save_every_n_train_steps: 1000
+    archive_every_n_train_steps: 25000

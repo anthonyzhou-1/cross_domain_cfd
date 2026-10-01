@@ -1,0 +1,92 @@
+model:
+    model_name: smart_ic
+    lr: 1.0e-4
+    optimizer: adam
+    max_surface_points: null
+    max_volume_points: null
+    context_ablation: [self_exact, zero_val]
+    context_ablation_batches: 8
+    model_params:
+        spatial_dim: 3
+        surface_channels: 4
+        volume_channels: 4
+        parameter_channels: 0
+        latent_dim: 384
+        latent_geometry_points: 4096
+        subsampled_geometry_points: 4096
+        subsampled_field_points: 4096
+        num_encoder_decoder_blocks: 12
+        num_heads: 8
+        weight_sharing: True
+        mlp_type: gelu
+        split_heads: false
+data:
+    type: joint
+    datasets:
+        - surface_dir: drivaernet/collated
+          volume_dir: drivaernet/volume_collated
+          weight: 1.0
+          tag: twin_u20
+          env_id: 0
+          freestream_scale: 0.6666667
+        - surface_dir: drivaernet/collated
+          volume_dir: drivaernet/volume_collated
+          weight: 1.0
+          tag: twin_u30
+          env_id: 1
+          freestream_scale: 1.0
+          heldout: True
+        - surface_dir: drivaernet/collated
+          volume_dir: drivaernet/volume_collated
+          weight: 1.0
+          tag: twin_u45
+          env_id: 2
+          freestream_scale: 1.5
+    n_geometry: null
+    n_surface: 32768
+    n_volume: 32768
+    load_surface: True
+    load_volume: True
+    batch_size: 1
+    num_workers: 16
+    pin_memory: True
+    prefetch_factor: 4
+    num_val: 100
+    return_metadata: False
+    return_cond: True
+    global_cond_norm: True
+    surf_stats_name: norm_stats_centered_thinned_twin3.npz
+    vol_stats_name: norm_stats_volume_thinned_twin3.npz
+    volume_thin:
+        voxel: 0.01
+        min_count: 8
+        alpha: 1.0
+        oversample: 8
+    surface_thin:
+        voxel: 0.01
+        min_count: 8
+        alpha: 1.0
+        oversample: 8
+    in_context: True
+    context_split: train
+    n_context_surface: 16384
+    n_context_volume: 16384
+training:
+    seed: 42
+    devices: 1
+    accelerator: gpu
+    strategy: auto
+    check_val_every_n_epoch: 1
+    val_every_n_steps: 1000
+    log_every_n_steps: 100
+    max_steps: 50000
+    lr_decay_every_n_steps: 1000
+    log_dir: ./logs/
+    project: latent_spaces
+    wandb_mode: online
+    ema_decay: 0.995
+    checkpoint: null
+    accumulate_grad_batches: 1
+    save_every_n_train_steps: 1000
+    archive_every_n_train_steps: 25000
+    description: twin_dnet_heldout_ic
