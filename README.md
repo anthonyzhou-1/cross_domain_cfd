@@ -30,7 +30,7 @@ python -m data_processing.norm_stats {base,surface,volume,twin} --root $CFD_DATA
 ```
 
 ## Preprocessed Datasets
-Preprocessed datasets can be downloaded from [Huggingface](https://hf.co/collections/ayz2/cross-domain-cfd). This is a downsampled version where each dataset does not exceed 1TB and is around 5TB in total. Otherwise, the full, preprocessed dataset (around 26TB in total) can be downloaded from Globus. 
+Preprocessed datasets can be downloaded from [Huggingface](https://hf.co/collections/ayz2/cross-domain-cfd). Huggingface stores a downsampled version where each dataset does not exceed 1TB and is around 5TB in total, for easy distribution and experimentation. For the full resolution, the entire preprocessed dataset (around 26TB in total) can be downloaded from Globus. 
 
 These are ready to use with the dataloader and dataset, otherwise the raw data will need to be processed. 
 
