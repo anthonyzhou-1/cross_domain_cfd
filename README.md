@@ -1,4 +1,4 @@
-# cross_domain_cfd
+# Cross-Domain Pretraining for Steady-State CFD Surrogates
 
 Training, finetuning and evaluation code for cross-domain neural surrogates of 3D CFD
 (surface + volume fields). Models: SMART (`smart`), in-context SMART (`smart_ic`),
