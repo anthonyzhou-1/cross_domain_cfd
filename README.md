@@ -1,8 +1,6 @@
 # Cross-Domain Pretraining for Steady-State CFD Surrogates
 
-Training, finetuning and evaluation code for cross-domain neural surrogates of 3D CFD
-(surface + volume fields). Models: SMART (`smart`), in-context SMART (`smart_ic`),
-Transolver++ (`transolver`) and AB-UPT (`upt`).
+Anthony Zhou, Amir Barati Farimani, Shirley Ho, Rudy Morel. 
 
 ## Install
 
@@ -14,25 +12,49 @@ pip install -r requirements.txt -f https://data.pyg.org/whl/torch-2.9.0+cu128.ht
 
 ## Data
 
-Configs use dataset dirs relative to a data root, given by `--data_root`, `data.data_root`
-in the config, or `$CFD_DATA_ROOT`:
+Configs use dataset directories relative to a data root, given by `--data_root` (this a command line argument), `data.data_root` (this can be set in the config .yaml files), or `$CFD_DATA_ROOT` (set as an environment variable):
 
 ```
 $CFD_DATA_ROOT/<dataset>/collated/         # surface samples + splits + norm_stats_*.npz
 $CFD_DATA_ROOT/<dataset>/volume_collated/  # volume samples + norm_stats_volume*.npz
 ```
 
-Build a dataset from its raw download, then compute normalization stats:
+For reproducibility, we provide scripts to build a dataset from its source (from the original papers) and for computing normalization stats:
 
 ```bash
-python -m data_processing.<dataset> surface --root $CFD_DATA_ROOT/<dataset>   # then: volume, prune
-python -m data_processing.norm_stats {base,surface,volume,twin} --root $CFD_DATA_ROOT
+python -m data_processing.<dataset> surface --root $CFD_DATA_ROOT/<dataset>  
+python -m data_processing.norm_stats --root $CFD_DATA_ROOT
 ```
+Downloading and processing data from the source can time-consuming, therefore we also provide preprocessed datasets. 
 
 ## Preprocessed Datasets
-Preprocessed datasets can be downloaded from [Huggingface](https://hf.co/collections/ayz2/cross-domain-cfd). Huggingface stores a downsampled version where each dataset does not exceed 1TB and is around 5TB in total, for easy distribution and experimentation. For the full resolution, the entire preprocessed dataset (around 26TB in total) can be downloaded from Globus. 
+There are two versions of the preprocessed data, either a downsampled version hosted on Huggingface (for easy distribution and experimentation), or the full version hosted on Globus. 
 
-These are ready to use with the dataloader and dataset, otherwise the raw data will need to be processed. 
+### Huggingface [Link to Data](https://hf.co/collections/ayz2/cross-domain-cfd)
+
+Huggingface stores a downsampled version where each dataset does not exceed 1TB and is around 5TB in total. The details for each dataset are:
+
+
+| Dataset      | Samples | Surface factor  | Volume factor | Surface size (TB) | Volume size (TB) | Total release (TB) | Source size (TB) |
+| :----------- | -------------------------: | ----------------: | ------------: | -----------: | ----------: | ------------: | ----------: |
+| ahmedml      | 500                  | ÷1                | ÷1            | 0.019        | 0.257       | **0.28**      | 0.28        |
+| windsorml    | 350                  | ÷1                | ÷3            | 0.029        | 0.692       | **0.72**      | 2.1         |
+| drivaerml    | 483                  | ÷3                | ÷3            | 0.039        | 0.713       | **0.75**      | 2.3         |
+| drivaernet   | 8,128              | ÷1                | ÷5            | 0.102        | 0.660       | **0.76**      | 3.4         |
+| emmi_wing    | 29,609           | ÷1                | ÷5            | 0.284        | 0.544       | **0.83**      | 4.6         |
+| superwing    | 28,856           | ÷1                | ÷3            | 0.034        | 0.670       | **0.70**      | 2.6         |
+| double_delta | 2,448              | ÷1                | ÷1            | 0.007        | 0.219       | **0.23**      | 0.23        |
+| hiliftaeroml | 1,787              | ÷12 (÷24 vs. raw) | ÷10           | 0.294        | 0.582       | **0.88**      | 10.4        |
+| **Total**    | **71,161**        |                   |               | 0.81         | 4.34        | **5.15**      | 25.9        |
+
+Note: The source size for HiLiftAeroML was already downsampled by 2x to save space on our cluster.
+
+### Globus [Link to Data](https://app.globus.org/file-manager?origin_id=52794d38-2c8f-4ded-91df-31d5aeec5e83&origin_path=%2F)
+For the full resolution, the entire preprocessed dataset (around 26TB in total) can be downloaded from Globus. 
+
+
+All of these datasets are ready to use with the dataloader and dataset.
+For SHIFT-CCA and SHIFT-Submarine, these are privately maintained so we do not release these. However, these can be downloaded from [Huggingface](https://huggingface.co/luminary-shift/datasets) by sending a request to Luminary, and processed using the provided scripts. 
 
 ## Pretrained Model Checkpoints
 
@@ -40,8 +62,7 @@ Pretrained model checkpoints for all experiments are available on [Huggingface](
 
 ## Run
 
-Run from the repo root. Logs and checkpoints go to `./logs/<run>/`; pass `--wandb_mode offline`
-or `disabled` to run without a wandb account.
+The code expects a logging directory to save logs and checkpoints (currently at `./logs/<run>/`). Furthermore, the code expects an authenticated wandb instance for logging. 
 
 ```bash
 export CFD_DATA_ROOT=/path/to/data # Or set data.data_root in the config yaml files. 
