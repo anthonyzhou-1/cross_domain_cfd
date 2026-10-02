@@ -45,7 +45,7 @@ Processing data from the source can time-consuming, therefore we also provide pr
 
 ### Huggingface [Link to Data](https://hf.co/collections/ayz2/cross-domain-cfd)
 
-Huggingface stores a downsampled version where each dataset does not exceed 1TB and is around 5TB in total. The details for each dataset are:
+Huggingface stores a downsampled version where each dataset does not exceed 1TB and is around 5TB in total. Some datasets were small enough (less than 1TB), and were not downsampled. The details for each dataset are:
 
 | Dataset      | Samples | Surface factor  | Volume factor | Surface size (TB) | Volume size (TB) | Total release (TB) | Source size (TB) |
 | :----------- | -------------------------: | ----------------: | ------------: | -----------: | ----------: | ------------: | ----------: |
@@ -59,7 +59,7 @@ Huggingface stores a downsampled version where each dataset does not exceed 1TB 
 | hiliftaeroml | 1,787              | ÷12 | ÷10           | 0.294        | 0.582       | **0.88**      | 10.4        |
 | **Total**    | **71,161**        |                   |               | 0.81         | 4.34        | **5.15**      | 25.9        |
 
-Note: The source size for HiLiftAeroML was already downsampled by 2x to save space on our cluster. Otherwise all data was kept at the original resolution as the source. 
+Emmi Wing and Superwing datasets are stored as .tar shards (to comply with maximum file quotas on Huggingface). These need to be unzipped before using. The source size for HiLiftAeroML was already downsampled by 2x to save space on our cluster. Otherwise all data was kept at the original resolution as the source. 
 
 ### Globus [Link to Data](https://app.globus.org/file-manager?origin_id=52794d38-2c8f-4ded-91df-31d5aeec5e83&origin_path=%2F)
 For the full resolution, the entire preprocessed dataset (around 26TB in total) can be downloaded from Globus. 
