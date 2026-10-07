@@ -41,7 +41,12 @@ Processing data from the source can time-consuming, therefore we also provide pr
 - Converted from raw simulation files (.vtk, etc.) into per-sample .npy files. Numpy files are stored as a memmap, which allows slices to be read from the file without loading the entire file. 
 - Surface/volume fields are randomly permuted before storage. Therefore, contiguous slices of the .npy file are random samples of the point clouds. 
 - Combined, this allows for very fast dataloading, by avoiding the need to open million-point meshes (an in general, we only have the memory to train on ~100k points at once). 
-- General cleanup of any numerical artifacts, and aligning sign/axis conventions across datasets. 
+- General cleanup of any numerical artifacts, and aligning sign/axis conventions across datasets.
+
+In general, this allows fast data loading and saves on storage compared to the raw simulation files, but there are a few drawbacks:
+
+- Meshes are discarded. Cell connectivity is a large portion of the raw surface/volume data and isn't used during training (except for GNNs perhaps). Unfortunately, this discards information like cell areas/normals that may be useful for geometric deep learning or computing surface integrals for drag/lift. However, the surface quadratures can be approximated quite well from the surface point cloud due to its high density and we observe that we can still back out coefficients of lift/drag through approximate quadratures.
+- CAD files (.stl. etc.) are also discarded.
 
 ### Huggingface [Link to Data](https://hf.co/collections/ayz2/cross-domain-cfd)
 
