@@ -47,6 +47,7 @@ In general, this allows fast data loading and saves on storage compared to the r
 
 - Meshes are discarded. Cell connectivity is a large portion of the raw surface/volume data and isn't used during training (except for GNNs perhaps). Unfortunately, this discards information like cell areas/normals that may be useful for geometric deep learning or computing surface integrals for drag/lift. However, the surface quadratures can be approximated quite well from the surface point cloud due to its high density and we observe that we can still back out coefficients of lift/drag through approximate quadratures.
 - CAD files (.stl. etc.) are also discarded.
+- If using the Huggingface, downsampled datasets, there is a chance that this discards some features in high-resolution, scale-resolving simulations. The time-averaging that is done to produce steady-state fields may already smooth these signals, and it isn't clear if neural surrogates can even predict features at such a high resolution, but this is a potential limitation of training on coarsened data. The Globus data is kept at the original resolution as best as we could. 
 
 ### Huggingface [Link to Data](https://hf.co/collections/ayz2/cross-domain-cfd)
 
