@@ -1,4 +1,4 @@
-# Cross-Domain Pretraining for Steady-State CFD Surrogates [Paper](https://arxiv.org/abs/2610.10398v1)
+# Cross-Domain Pretraining for Steady-State CFD Surrogates ([Paper](https://arxiv.org/abs/2610.10398v1))
 
 Anthony Zhou, Amir Barati Farimani, Shirley Ho, Rudy Morel. 
 
@@ -15,9 +15,9 @@ pip install -r requirements.txt -f https://data.pyg.org/whl/torch-2.9.0+cu128.ht
 ## Downloading from Source
 
 You can either download data from the source (listed below), or download preprocessed versions of the data that we release. The source for each dataset is:
-- [AhmedMl](https://arxiv.org/abs/2407.20801)
+- [AhmedML](https://arxiv.org/abs/2407.20801)
 - [DrivAerML](https://arxiv.org/abs/2408.11969)
-- [WindsorML](https://arxiv.org/pdf/2407.19320)
+- [WindsorML](https://arxiv.org/abs/2407.19320)
 - [HiLiftAeroML](https://arxiv.org/abs/2605.19565)
 - [DrivAerNet++](https://arxiv.org/abs/2406.09624)
 - [Emmi_Wing](https://arxiv.org/abs/2511.21474)
@@ -36,18 +36,18 @@ python -m data_processing.norm_stats --root $CFD_DATA_ROOT
 ```
 
 ### Downloading Preprocessed Data
-Processing data from the source can time-consuming, therefore we also provide preprocessed datasets. There are two versions of the preprocessed data, either a downsampled version hosted on Huggingface (for easy distribution and experimentation), or the full version hosted on Globus. The key features of the preprocessing are:
+Processing data from the source can be time-consuming, therefore we also provide preprocessed datasets. There are two versions of the preprocessed data, either a downsampled version hosted on Huggingface (for easy distribution and experimentation), or the full version hosted on Globus. The key features of the preprocessing are:
 
 - Converted from raw simulation files (.vtk, etc.) into per-sample .npy files. Numpy files are stored as a memmap, which allows slices to be read from the file without loading the entire file. 
 - Surface/volume fields are randomly permuted before storage. Therefore, contiguous slices of the .npy file are random samples of the point clouds. 
-- Combined, this allows for very fast dataloading, by avoiding the need to open million-point meshes (an in general, we only have the memory to train on ~100k points at once). 
+- Combined, this allows for very fast dataloading, by avoiding the need to open million-point meshes (and in general, we only have the memory to train on ~100k points at once). 
 - General cleanup of any numerical artifacts, and aligning sign/axis conventions across datasets.
 
 In general, this allows fast data loading and saves on storage compared to the raw simulation files, but there are a few drawbacks:
 
 - Meshes are discarded. Cell connectivity is a large portion of the raw surface/volume data and isn't used during training (except for GNNs perhaps). Unfortunately, this discards information like cell areas/normals that may be useful for geometric deep learning or computing surface integrals for drag/lift. However, the surface quadratures can be approximated quite well from the surface point cloud due to its high density and we observe that we can still back out coefficients of lift/drag through approximate quadratures.
-- CAD files (.stl. etc.) are also discarded.
-- If using the Huggingface, downsampled datasets, there is a chance that this discards some features in high-resolution, scale-resolving simulations. The time-averaging that is done to produce steady-state fields may already smooth these signals, and it isn't clear if neural surrogates can even predict features at such a high resolution, but this is a potential limitation of training on coarsened data. The Globus data is kept at the original resolution as best as we could. 
+- CAD files (.stl, .step, etc.) are also discarded.
+- If using the downsampled, Huggingface datasets, there is a chance that this discards some features in high-resolution, scale-resolving simulations. The time-averaging that is done to produce steady-state fields may already smooth these signals, and it isn't clear if neural surrogates can even predict features at such a high resolution, but this is a potential limitation of training on coarsened data. The Globus data is kept at the original resolution as best as we could. 
 
 ### Huggingface [Link to Data](https://hf.co/collections/ayz2/cross-domain-cfd)
 
@@ -74,7 +74,7 @@ All of these datasets are ready to use with the dataloader and dataset.
 For SHIFT-CCA and SHIFT-Submarine, these are privately maintained so we do not release these. However, these can be downloaded from [Huggingface](https://huggingface.co/luminary-shift/datasets) by sending a request to Luminary, and processed using the provided scripts. 
 
 ### Data Configs
-After downloading the data, the data root must be set. Configs use dataset directories relative this data root, given by `--data_root` (this a command line argument), `data.data_root` (this can be set in the config .yaml files), or `$CFD_DATA_ROOT` (set as an environment variable):
+After downloading the data, the data root must be set. Configs use dataset directories relative to the data root, given by `--data_root` (this is a command line argument), `data.data_root` (this can be set in the config .yaml files), or `$CFD_DATA_ROOT` (set as an environment variable):
 
 ```
 $CFD_DATA_ROOT/<dataset>/collated/         # surface samples + splits + norm_stats_*.npz
