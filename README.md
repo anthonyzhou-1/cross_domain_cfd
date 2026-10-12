@@ -12,7 +12,7 @@ pip install -r requirements.txt -f https://data.pyg.org/whl/torch-2.9.0+cu128.ht
 
 ## Data
 
-## Downloading from Source
+### Downloading from Source
 
 You can either download data from the source (listed below), or download preprocessed versions of the data that we release. The source for each dataset is:
 - [AhmedML](https://arxiv.org/abs/2407.20801)
