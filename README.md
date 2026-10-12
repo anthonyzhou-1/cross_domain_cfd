@@ -1,4 +1,4 @@
-# Cross-Domain Pretraining for Steady-State CFD Surrogates
+# Cross-Domain Pretraining for Steady-State CFD Surrogates [Paper](https://arxiv.org/abs/2610.10398v1)
 
 Anthony Zhou, Amir Barati Farimani, Shirley Ho, Rudy Morel. 
 
