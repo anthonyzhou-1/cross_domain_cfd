@@ -111,3 +111,18 @@ done
 Use `--checkpoint scratch` for a randomly initialized baseline, and the matching `configs/finetuning/cond_*.yaml`
 for each pretrained model family (`cond_abupt`, `cond_transolver`, `cond_smart_physnorm`, ...).
 Common overrides: `--devices`, `--seed`, `--max_steps`, `--data_root`; see `python train.py --help`.
+```
+
+## Licenses
+
+Each dataset was originally released with a license:
+- CC BY-SA 4.0: AhmedML, WindsorML, DrivAerML, SuperWing
+     - You may share and adapt the data for any purpose, including commercially, provided you give appropriate credit, link to the license, and indicate changes. Any adaptations you distribute must be released under the same license (ShareAlike).
+- CC BY 4.0: HiLiftAeroML. 
+    - You may share and adapt the data for any purpose, including commercially, provided you give appropriate credit, link to the license, and indicate changes.
+- CC BY 2.0: Double-Delta. 
+    - You may share and adapt the data for any purpose, including commercially, provided you credit the original authors, keep any copyright notices intact, and identify changes made in adaptations.
+- CC BY-NC 4.0: DrivAerNet++, Emmi-Wing. 
+    - You may share and adapt the data for non-commercial purposes only, such as academic research and education, provided you give appropriate credit, link to the license, and indicate changes. Commercial use is not permitted. For commercial licensing, contact the original authors.
+
+
