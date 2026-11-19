@@ -117,7 +117,7 @@ Common overrides: `--devices`, `--seed`, `--max_steps`, `--data_root`; see `pyth
 
 ## Licenses
 
-Each dataset was originally released with a license:
+Each dataset was originally released with the licenses:
 - CC BY-SA 4.0: AhmedML, WindsorML, DrivAerML, SuperWing
      - You may share and adapt the data for any purpose, including commercially, provided you give appropriate credit, link to the license, and indicate changes. Any adaptations you distribute must be released under the same license (ShareAlike).
 - CC BY 4.0: HiLiftAeroML. 
